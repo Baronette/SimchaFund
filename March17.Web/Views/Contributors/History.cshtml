@@ -1,0 +1,32 @@
+﻿@model HistoryViewModel
+
+<div>
+    <div>
+        <h2>History for @Model.Name</h2>
+    </div>
+    <div><h4>Current Balance: @Model.Balance.ToString("C")</h4></div>
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model.Transactions)
+                {
+                    <tr>
+                        <td>@t.Name</td>
+                        <td>@t.Date.ToLongDateString()</td>
+                        <td>@t.Amount.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div style="text-align:center;">
+            <a href="/contributors" class="btn-primary btn-lg">Back to Contributors</a>
+        </div>
+    </div>
+    </div>

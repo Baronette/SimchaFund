@@ -1,0 +1,66 @@
+﻿@model SimchosViewModel
+
+<div class="mt-3">
+    <h1>Simchos</h1>
+</div>
+<div class="mt-2">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#simcha-modal">
+        New Simcha
+    </button>
+</div>
+<div class="table-responsive mt-3">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Contributions</th>
+                <th>Simcha</th>
+                <th>Date</th>
+                <th>Contributer Count</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        @foreach (var s in Model.Simchos)
+        {
+            <tr>
+                <td><a href="/simchos/contributions?id=@s.Id" class="btn btn-primary">Contributions</a></td>
+                <td>@s.Name</td>
+                <td>@s.Date.ToShortDateString()</td>
+                <td>@s.ContributorCount/@Model.ContributorCount</td>
+                <td>@s.Total.ToString("C")</td>
+            </tr>
+        }
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="simcha-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Simcha</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/simchos/addsimcha">
+                    <div class="form-group">
+                        <label>Simcha Name</label>
+                        <input class="form-control" placeholder="Simcha Name" name="name" id="simcha-name" type="text"/>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Simcha Date</label>
+                        <input type="date" class="form-control" id="simcha-date" name="date" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
