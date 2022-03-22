@@ -42,7 +42,7 @@
                     <td>
                         <a href="/contributors/history?id=@c.Id" class="btn btn-primary">Show History</a>
                         <button data-first-name="@c.FirstName" data-last-name="@c.LastName"
-                                data-cell="@c.CellNumber" data-id=@c.Id data-always-include="@c.AlwaysInclude" data-date="@c.Date"
+                                data-cell="@c.CellNumber" data-id=@c.Id data-always-include="@c.AlwaysInclude" data-date="@c.Date.ToString("yyyy-MM-dd")"
                                 class="btn btn-danger edit" data-toggle="modal" data-target="#contributor-modal">
                             Edit
                         </button>
