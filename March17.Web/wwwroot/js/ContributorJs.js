@@ -13,8 +13,10 @@
         $("#date-created").val($(this).data("date"))
         $("#always-include").prop("checked", $(this).data("always-include"))
         $(".deposit").hide()
-        $(".form").attr("action", "/contributors/edit")
-        
-
+        $(".form").attr("action", "/contributors/edit")      
     })
+    $('.modal-fade').on('hidden.bs.modal', function () {
+        $(this).find('form').trigger('reset');
+    })
+
 })

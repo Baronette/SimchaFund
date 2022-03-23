@@ -16,6 +16,6 @@ namespace March17.Data
         public decimal Balance { get; set; }
         public DateTime Date { get; set; }
         public bool Contributed { get; set; }
-        public decimal AmountContributed { get; set; }
+        public decimal AmountContributed { get; set; } = 5;
     }
 }

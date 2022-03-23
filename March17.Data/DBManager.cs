@@ -46,12 +46,12 @@ namespace March17.Data
         {
             using var connection = new SqlConnection(_conection);
             using var command = connection.CreateCommand();
-            command.CommandText = @"SELECT c1.*, SUM(d.Amount) AS Deposit, SUM(c2.Amount) AS Contributed FROM Contributors c1
-                                    LEFT JOIN Contributions c2
+            command.CommandText = @"SELECT c1.*, d.Amount, SUM(c2.Amount) AS Contributed FROM Contributions c2
+                                    JOIN Contributors c1
                                     ON c1.Id = c2.ContributorId
                                     LEFT JOIN Deposits d
                                     ON d.ContributorId = c1.Id
-                                    GROUP BY c1.Id, c1.FirstName, c1.LastName, c1.CellNumber, c1.AlwaysInclude, c1.Date";
+                                    GROUP BY c1.Id, c1.FirstName, c1.LastName, c1.CellNumber, c1.AlwaysInclude, d.Amount";
             connection.Open();
             List<Contributor> contributors = new();
             var reader = command.ExecuteReader();
@@ -64,8 +64,7 @@ namespace March17.Data
                     LastName = (string)reader["LastName"],
                     CellNumber = (string)reader["CellNumber"],
                     AlwaysInclude = reader.Get<bool>("AlwaysInclude"),
-                    Balance = reader.Get<decimal>("Deposit") + reader.Get<decimal>("Contributed"),
-                    Date = reader.Get<DateTime>("Date"),
+                    Balance = reader.Get<decimal>("Amount") + reader.Get<decimal>("Contributed")
                 });
             }
             return contributors;
@@ -155,7 +154,7 @@ namespace March17.Data
             command.CommandText = "SELECT Name FROM Simchos WHERE Id = @id";
             command.Parameters.AddWithValue("@id", id);
             connection.Open();
-            return (string)command.ExecuteScalar();            
+            return (string)command.ExecuteScalar();
         }
         public string GetContributorName(int id)
         {
@@ -239,7 +238,7 @@ namespace March17.Data
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@cid", t.ContributorId);
                 command.Parameters.AddWithValue("@sid", id);
-                command.Parameters.AddWithValue("@amount", t.Amount);
+                command.Parameters.AddWithValue("@amount", -t.Amount);
                 command.ExecuteNonQuery();
             }
 
